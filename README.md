@@ -26,6 +26,11 @@ According to the universal approximation theorem, with sufficient capacity, we k
 <br/>
 
 One of the problems solved by ResNets is gradient leakage. Indeed, when the network is too deep, the gradients from which the loss function is calculated easily reduce to zero after several applications of the chain rule. This result on the weights never updates its values and therefore no learning is performed.
+
+<p align="center">
+    <img src="screenshots/resnetcourbe.png" width="700" height="300">
+</p>
+
 <br/>
 
 ## How does he solve it
@@ -36,7 +41,9 @@ Instead of learning a transformation of  x -> y  with a function  H(x)  (Some st
 The author's hypothesis is that it is easy to optimize the residual function F (x) rather than to optimize H (x).
 
 The central idea of ResNet is to introduce a so-called "identity shortcut connection" which skips one or more layers, as shown in the following figure:
-
+<p align="center">
+    <img src="screenshots/resnet_bloc.png" width="700" height="300">
+</p>
 <br/>
 
 ## Architecture of ResNet
@@ -44,7 +51,9 @@ The central idea of ResNet is to introduce a so-called "identity shortcut connec
 
 Since ResNets can have varying sizes, depending on the size of each layer in the model and the number of layers it has, we will follow the authors' description in this article : https://arxiv.org/pdf/1512.03385.pdf to explain the structure after these networks.
 
-
+<p align="center">
+    <img src="screenshots/resnet_structure.png" width="700" height="1100">
+</p>
 
 Here we can see that the ResNet (the one below) consists of a convolution and grouping step (on orange) followed by 4 layers of similar behavior.
 
@@ -53,6 +62,10 @@ Each of the layers follows the same pattern. They perform a 3x3 convolution with
 The dotted line is there, precisely because there has been a change in the size of the input volume (of course a reduction due to convolution). Note that this reduction between layers is obtained by increasing the stride, from 1 to 2, at the first convolution of each layer; instead of through a pooling operation, which we're used to seeing as down samplers.
 
 In this table, there is a summary of the output size at each layer and the dimension of the convolutional karnel at each point of the structure :
+
+<p align="center">
+    <img src="screenshots/resnet.png" width="700" height="300">
+</p>
 
 In what follows we will try to compare the performance of a ResNet vs a CNN on a Dataset.
 <br/>
@@ -66,6 +79,12 @@ Pneumonia is an inflammatory condition of the lung mainly affecting the small ai
 Pneumonia is usually caused by infection with viruses or bacteria and less commonly by other microorganisms, certain drugs, or conditions such as autoimmune disease. Risk factors include cystic fibrosis, lung disease Chronic obstructive pulmonary disease (COPD), asthma, diabetes, heart failure, a history of smoking, poor ability to cough as a result of a stroke and a weakened immune system. Diagnosis is often based on symptoms and physical examination.
 
 Chest x-ray, blood tests, and sputum culture can help confirm the diagnosis. The goal of this project is to train a ResNet model to help us detect Pneumonia from chest x-ray.
+
+
+<p align="center">
+    <img src="screenshots/pneumonia.jpg" width="700" height="300">
+</p>
+
 <br/>
 
 # Dataset 
@@ -78,7 +97,18 @@ The Dataset is organized in 3 folders (train, test, val) and contains sub-folder
 <br/>
 
 We have two classes, Pneumonia and Normal. The data appear to be out of balance. To increase the normal training examples we will use data augmentation.
+<p align="center">
+    <img src="screenshots/dataset_balance.png" width="500" height="300">
+</p>
+
+<br/>
+<br/>
+
 Some images from the Dataset : 
+
+<p align="center">
+    <img src="screenshots/images.png" width="500" height="300">
+</p>
 
 <br/>
 

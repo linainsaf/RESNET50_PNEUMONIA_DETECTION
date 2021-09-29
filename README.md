@@ -9,12 +9,9 @@
    - [Data exploration](#data-exploration)
    - [Data resizing](#data-resizing)
    - [Data augmentation](#data-augmentation)
- - [Model building](#model-building)
-   - [Convolutional Neural Network](#convolutional-neural-network)
-   - [ResNet](#resnet)
-      - [Transfer learning](#transfer-learning)
-      - [Why transfer learning](#why-transfer-learning)
- - [Results and conclusion](#results-and-conclusion) 
+ - [Transfer learning](#transfer-learning)
+   - [Why transfer learning](#why-transfer-learning)
+ - [Results comparison](#results-comparison) 
    
 # Introduction 
 <br/>
@@ -67,7 +64,7 @@ In this table, there is a summary of the output size at each layer and the dimen
     <img src="screenshots/resnet.png" width="700" height="300">
 </p>
 
-In what follows we will try to compare the performance of a ResNet vs a CNN on a Dataset.
+In what follows we will try to compare the performance of a ResNet vs a other normal CNNs on a Dataset.
 <br/>
 
 
@@ -88,6 +85,15 @@ Chest x-ray, blood tests, and sputum culture can help confirm the diagnosis. The
 <br/>
 
 # Dataset 
+<pre>
+Dataset Name     : Chest X-Ray Images (Pneumonia)
+Dataset Link     : <a href=https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia>Chest X-Ray Images (Pneumonia) Dataset (Kaggle)</a>
+                 : <a href=https://data.mendeley.com/datasets/rscbjbr9sj/2>Chest X-Ray Images (Pneumonia) Dataset (Original Dataset)</a>
+Original Paper   : <a href=https://www.cell.com/cell/fulltext/S0092-8674(18)30154-5>Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning</a>
+                   (Daniel S. Kermany, Michael Goldbaum, Wenjia Cai, M. Anthony Lewis, Huimin Xia, Kang Zhang)
+                   https://www.cell.com/cell/fulltext/S0092-8674(18)30154-5
+</pre>
+
 <br/>
 
 The Dataset is organized in 3 folders (train, test, val) and contains sub-folders for each image category (Pneumonia / Normal). There are 5863 X-ray images (JPEG) and 2 categories (Pneumonia / Normal). Chest (anteroposterior) x-rays were selected from retrospective cohorts of pediatric patients aged one to five years at the Guangzhou Women's and Children's Medical Center in Guangzhou. All chest x-rays were taken as part of routine clinical patient care. For analysis of chest x-ray images, all chest x-rays were initially reviewed for quality control by removing any poor quality or unreadable scans. The diagnoses for the images were then scored by two expert doctors before being validated for training the AI system. In order to take account of possible scoring errors, the evaluation set was also checked by a third expert.
@@ -136,33 +142,35 @@ For the increase of data we have chosen:
 
 <br/>
 
-# Model building 
-## Convolutional Neural Network
-<br/>
-
-Now is the time to build the architecture of the neural network. Let's start with the input layer (input1). So this layer basically takes all of the image samples in our X data. Therefore, we need to make sure that the first layer accepts exactly the same shape as the image size. It should be noted that what we need to define is only (width, height, channels), instead of (samples, width, height, channels).
-
-Then, this input layer1 is connected to several pairs of convolutional aggregation layers before finally being flattened and connected to dense layers. Note that all of the hidden layers in the model use the ReLU activation function due to the fact that ReLU is faster to compute than sigmoid, and therefore the required training time is shorter.
-
-Finally, the last layer to be connected is output1, which consists of 3 neurons with a sigmoid activation function.
-
-Here the sigmoid is used because we want the outputs to be the probability value of each class.
-<br/>
-## ResNet
-
-We are now using a pre-trained ResNet50 convolutional neural network model and we are using transfer learning to learn the weights of the last layer of the network only.
-
-### Transfer learning
+# Transfer learning
 Transfer learning is a machine learning problem that focuses on retaining the knowledge gained by solving a problem and applying it to a different but related problem. For example, the knowledge gained from learning to recognize cars could be applied when trying to recognize trucks.
 
 Indeed, one of the great motivations of transfer learning is that it takes a large amount of data to have robust models (especially in deep learning). So, if we can transfer some knowledge acquired during the creation of an X model, we can use less data for the creation of a Y model.
 
-### Why transfer learning
+## Why transfer learning
 Because with transfer learning, you start with an existing (trained) neural network used for image recognition - then modify it a bit (or more) here and there to train a model for your case. particular use. And why are we doing this? Training a reasonable neural network would mean needing around 300,000 image samples, and for very good performance we would need at least a million images.
 
 In our case, we have around 4000 images in our training set - you have a guess as to whether that would have been enough if we had trained a neural network from scratch.
 
-We are going to load a pre-trained ResNet50 network, which has been trained on approximately one million images from the ImageNet database.
+We are going to load a pre-trained networks, which have been trained on approximately one million images from the ImageNet database. The models that we are going to use are : 
+ -  VGG16 : The VGG-16 is one of the most popular pre-trained models for image classification. It was and remains THE model to beat even today. Developed at the Visual Graphics Group at the University of Oxford, VGG-16 beat the then standard of AlexNet and was quickly adopted by researchers and the industry for their image Classification Tasks.
+
+ -  Inception V3 : the Inception model module just performs convolutions with different filter sizes on the input, performs Max Pooling, and concatenates the result for the next Inception module. The introduction of the 1 * 1 convolution operation reduces the parameters drastically. Though the number of layers in Inceptionv3 is 24, the massive reduction in the parameters makes it a formidable model to beat.
+ 
+ -  ResNet50 : And last, we are going to test the ResNet interduced earlier and see how it compares to the other models. 
 
 
-# Results and conclusion 
+# Results comparison
+
+
+| Model name         |    Precsion     |     Recall     |    F1 score    |
+| ------------------ |---------------- | -------------- | -------------- |
+| VGG16              |     55%         |      59%       |       53%      |
+| Inception V3       |     52%         |      58%       |       52%      |
+| ResNet 50          |     91%         |      90%       |       90%      |
+
+- the VGG16 model : Our accuracy is quite bad, our model tends to overfit directly.
+- The Inception model : Same thing. However, the training took less time than VGG16.
+- What we noticed, is that these two models overfit quite rapidly which makes it impossible to learn more unless we have more data. 
+- For ResNet model however, the problem of over fitting is resolved, and we could acheive 90% accuracy rate. 
+

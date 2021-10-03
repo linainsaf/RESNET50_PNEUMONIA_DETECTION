@@ -165,12 +165,12 @@ We are going to load a pre-trained networks, which have been trained on approxim
 
 | Model name         |    Precsion     |     Recall     |    F1 score    |
 | ------------------ |---------------- | -------------- | -------------- |
-| VGG16              |     55%         |      59%       |       53%      |
-| Inception V3       |     52%         |      58%       |       52%      |
+| VGG16              |     91%         |      90%       |       90%      |
+| Inception V3       |     88%         |      88%       |       87%      |
 | ResNet 50          |     91%         |      90%       |       90%      |
 
-- the VGG16 model : Our accuracy is quite bad, our model tends to overfit directly.
-- The Inception model : Same thing. However, the training took less time than VGG16.
+- the VGG16 model : Our were able to acheive accuracy with only 10 epochs that is good results. However, our modelstarts overfitting after that and we can't improve our accuracy any longer.
+- The Inception model : The accuracy was less than for VGG16. However, the training took less time. But the model started overfitting aswell after.
 - What we noticed, is that these two models overfit quite rapidly which makes it impossible to learn more unless we have more data. 
-- For ResNet model however, the problem of over fitting is resolved, and we could acheive 90% accuracy rate. 
+- For ResNet model however, the problem of over fitting is resolved, and we could acheive 92% accuracy rate. 
 
